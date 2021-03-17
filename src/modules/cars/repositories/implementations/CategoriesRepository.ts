@@ -1,5 +1,5 @@
-import { Category } from "../model/Category";
-import { ICategoriesRepository } from "./ICategoriesRepository";
+import { Category } from "../../model/Category";
+import { ICategoriesRepository } from "../ICategoriesRepository";
 
 // DTO => Data tranfer object
 
@@ -7,12 +7,22 @@ interface ICreateCategoryDTO {
   name: string;
   description: string;
 }
-class CategoriesRepository implements ICategoriesRepository{
+class CategoriesRepository implements ICategoriesRepository {
 
   private categories: Category[] = [];
 
-  constructor() {
+  private static INSTANCE: CategoriesRepository
+
+  private constructor() {
     this.categories = [];
+  }
+
+  public static getInstance(): CategoriesRepository {
+    if (!CategoriesRepository.INSTANCE) {
+      CategoriesRepository.INSTANCE = new CategoriesRepository();
+    }
+
+    return CategoriesRepository.INSTANCE;
   }
 
   public create({ description, name }: ICreateCategoryDTO): void {
