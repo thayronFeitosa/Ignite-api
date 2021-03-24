@@ -1,17 +1,17 @@
 import { ISpecificationRepository } from "../../repositories/ISpecificationRepository";
-
+import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   name: string;
   description: string;
 }
-
+@injectable()
 class CreateSpecificationUseCase {
-constructor(private specificationRepository: ISpecificationRepository){}
-  execute({name, description}: IRequest) {
+  constructor(@inject("ISpecificationRepository") private specificationRepository: ISpecificationRepository) { }
+  execute({ name, description }: IRequest) {
     const epecificationArealyExists = this.specificationRepository.findByName(name);
 
-    if(epecificationArealyExists){
+    if (epecificationArealyExists) {
       throw new Error('Specification arealy exists')
     }
 
